@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **members** | [**List[OrganizationMemberModel]**](OrganizationMemberModel.md) |  | 
 **projects** | [**List[OrganizationProjectModel]**](OrganizationProjectModel.md) |  | 
 **subscription** | [**OrganizationSubscriptionModel**](.md) |  | [optional] 
+**period_usage** | [**OrganizationUsageModel**](OrganizationUsageModel.md) |  | 
 
 ## Example
 

@@ -3,7 +3,7 @@
 """
     ObsLabs API
 
-    # Authentication  ObsLabs uses basic auth to authenticate the API. You can create API keys in the account settings. Use your API key as the basic auth password. The username should be left blank (notice the colon sign before api-key that must be included). All requests must be made over https.  Example usage: ```bash curl -u :<YOUR API KEY> https://api.obslabs.io/v1/users/me ```  # Errors  The API returns a structured error response in case of failure. Below is the format of the error response object:  ```json {   \"error\": {     \"status\": 400,     \"code\": \"VALIDATION\",     \"message\": \"Validation errors occurred.\",     \"details\": [       {         \"field\": \"email\",         \"issue\": \"The email address is not in a valid format.\"       },       {         \"field\": \"password\",         \"issue\": \"The password must be at least 8 characters long.\"       }     ]   } } 
+    # Authentication  ObsLabs uses basic auth to authenticate the API. You can create API keys in the account settings. Use your API key as the basic auth password. The username should be left blank (notice the colon sign before api-key that must be included). All requests must be made over https.  Example usage: ```bash curl -u :<YOUR API KEY> https://api.obslabs.io/v1/account ```  # Errors  The API returns a structured error response in case of failure. Below is the format of the error response object:  ```json {   \"error\": {     \"status\": 400,     \"code\": \"VALIDATION\",     \"message\": \"Validation errors occurred.\",     \"details\": [       {         \"field\": \"email\",         \"issue\": \"The email address is not in a valid format.\"       },       {         \"field\": \"password\",         \"issue\": \"The password must be at least 8 characters long.\"       }     ]   } } 
 
     The version of the OpenAPI document: 1.0
     Contact: contact@obslabs.io
@@ -23,6 +23,7 @@ from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from obslabs_client.models.organization_member_model import OrganizationMemberModel
 from obslabs_client.models.organization_project_model import OrganizationProjectModel
+from obslabs_client.models.organization_usage_model import OrganizationUsageModel
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -37,8 +38,9 @@ class OrganizationModel(BaseModel):
     members: List[OrganizationMemberModel]
     projects: List[OrganizationProjectModel]
     subscription: Optional[Dict[str, Any]] = None
+    period_usage: OrganizationUsageModel
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["id", "name", "is_trial", "trial_ends_at", "members", "projects", "subscription"]
+    __properties: ClassVar[List[str]] = ["id", "name", "is_trial", "trial_ends_at", "members", "projects", "subscription", "period_usage"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -98,6 +100,9 @@ class OrganizationModel(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of subscription
         if self.subscription:
             _dict['subscription'] = self.subscription.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of period_usage
+        if self.period_usage:
+            _dict['period_usage'] = self.period_usage.to_dict()
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -121,7 +126,8 @@ class OrganizationModel(BaseModel):
             "trial_ends_at": obj.get("trial_ends_at"),
             "members": [OrganizationMemberModel.from_dict(_item) for _item in obj["members"]] if obj.get("members") is not None else None,
             "projects": [OrganizationProjectModel.from_dict(_item) for _item in obj["projects"]] if obj.get("projects") is not None else None,
-            "subscription": OrganizationSubscriptionModel.from_dict(obj["subscription"]) if obj.get("subscription") is not None else None
+            "subscription": OrganizationSubscriptionModel.from_dict(obj["subscription"]) if obj.get("subscription") is not None else None,
+            "period_usage": OrganizationUsageModel.from_dict(obj["period_usage"]) if obj.get("period_usage") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

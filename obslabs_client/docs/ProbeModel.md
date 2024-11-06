@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **name** | **str** |  | 
 **type** | **str** |  | 
 **url** | **str** |  | 
-**status** | **str** |  | 
+**status** | [**ProbeStatusModel**](ProbeStatusModel.md) |  | 
 **status_checked_at** | **datetime** |  | 
 **status_changed_at** | **datetime** |  | 
 **schedule** | [**ProbeScheduleModel**](.md) |  | 

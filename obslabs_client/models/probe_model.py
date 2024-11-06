@@ -3,7 +3,7 @@
 """
     ObsLabs API
 
-    # Authentication  ObsLabs uses basic auth to authenticate the API. You can create API keys in the account settings. Use your API key as the basic auth password. The username should be left blank (notice the colon sign before api-key that must be included). All requests must be made over https.  Example usage: ```bash curl -u :<YOUR API KEY> https://api.obslabs.io/v1/users/me ```  # Errors  The API returns a structured error response in case of failure. Below is the format of the error response object:  ```json {   \"error\": {     \"status\": 400,     \"code\": \"VALIDATION\",     \"message\": \"Validation errors occurred.\",     \"details\": [       {         \"field\": \"email\",         \"issue\": \"The email address is not in a valid format.\"       },       {         \"field\": \"password\",         \"issue\": \"The password must be at least 8 characters long.\"       }     ]   } } 
+    # Authentication  ObsLabs uses basic auth to authenticate the API. You can create API keys in the account settings. Use your API key as the basic auth password. The username should be left blank (notice the colon sign before api-key that must be included). All requests must be made over https.  Example usage: ```bash curl -u :<YOUR API KEY> https://api.obslabs.io/v1/account ```  # Errors  The API returns a structured error response in case of failure. Below is the format of the error response object:  ```json {   \"error\": {     \"status\": 400,     \"code\": \"VALIDATION\",     \"message\": \"Validation errors occurred.\",     \"details\": [       {         \"field\": \"email\",         \"issue\": \"The email address is not in a valid format.\"       },       {         \"field\": \"password\",         \"issue\": \"The password must be at least 8 characters long.\"       }     ]   } } 
 
     The version of the OpenAPI document: 1.0
     Contact: contact@obslabs.io
@@ -23,6 +23,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from obslabs_client.models.probe_channel_model import ProbeChannelModel
+from obslabs_client.models.probe_status_model import ProbeStatusModel
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -34,7 +35,7 @@ class ProbeModel(BaseModel):
     name: Annotated[str, Field(min_length=3, strict=True, max_length=16)]
     type: StrictStr
     url: StrictStr
-    status: StrictStr
+    status: ProbeStatusModel
     status_checked_at: Optional[datetime]
     status_changed_at: Optional[datetime]
     schedule: Dict[str, Any]
@@ -47,13 +48,6 @@ class ProbeModel(BaseModel):
         """Validates the enum"""
         if value not in set(['push', 'pull']):
             raise ValueError("must be one of enum values ('push', 'pull')")
-        return value
-
-    @field_validator('status')
-    def status_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['success', 'failure', 'paused']):
-            raise ValueError("must be one of enum values ('success', 'failure', 'paused')")
         return value
 
     model_config = ConfigDict(

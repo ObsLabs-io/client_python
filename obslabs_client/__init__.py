@@ -5,7 +5,7 @@
 """
     ObsLabs API
 
-    # Authentication  ObsLabs uses basic auth to authenticate the API. You can create API keys in the account settings. Use your API key as the basic auth password. The username should be left blank (notice the colon sign before api-key that must be included). All requests must be made over https.  Example usage: ```bash curl -u :<YOUR API KEY> https://api.obslabs.io/v1/users/me ```  # Errors  The API returns a structured error response in case of failure. Below is the format of the error response object:  ```json {   \"error\": {     \"status\": 400,     \"code\": \"VALIDATION\",     \"message\": \"Validation errors occurred.\",     \"details\": [       {         \"field\": \"email\",         \"issue\": \"The email address is not in a valid format.\"       },       {         \"field\": \"password\",         \"issue\": \"The password must be at least 8 characters long.\"       }     ]   } } 
+    # Authentication  ObsLabs uses basic auth to authenticate the API. You can create API keys in the account settings. Use your API key as the basic auth password. The username should be left blank (notice the colon sign before api-key that must be included). All requests must be made over https.  Example usage: ```bash curl -u :<YOUR API KEY> https://api.obslabs.io/v1/account ```  # Errors  The API returns a structured error response in case of failure. Below is the format of the error response object:  ```json {   \"error\": {     \"status\": 400,     \"code\": \"VALIDATION\",     \"message\": \"Validation errors occurred.\",     \"details\": [       {         \"field\": \"email\",         \"issue\": \"The email address is not in a valid format.\"       },       {         \"field\": \"password\",         \"issue\": \"The password must be at least 8 characters long.\"       }     ]   } } 
 
     The version of the OpenAPI document: 1.0
     Contact: contact@obslabs.io
@@ -19,13 +19,13 @@ __version__ = "1.0.0"
 
 # import apis into sdk package
 from obslabs_client.api.api_keys_api import APIKeysApi
+from obslabs_client.api.account_api import AccountApi
 from obslabs_client.api.channels_api import ChannelsApi
 from obslabs_client.api.integrations_api import IntegrationsApi
 from obslabs_client.api.invitations_api import InvitationsApi
 from obslabs_client.api.organizations_api import OrganizationsApi
 from obslabs_client.api.probes_api import ProbesApi
 from obslabs_client.api.projects_api import ProjectsApi
-from obslabs_client.api.users_api import UsersApi
 
 # import ApiClient
 from obslabs_client.api_response import ApiResponse
@@ -55,9 +55,12 @@ from obslabs_client.models.organization_model import OrganizationModel
 from obslabs_client.models.organization_project_model import OrganizationProjectModel
 from obslabs_client.models.organization_subscription_model import OrganizationSubscriptionModel
 from obslabs_client.models.organization_subscription_scheduled_change_model import OrganizationSubscriptionScheduledChangeModel
+from obslabs_client.models.organization_usage_model import OrganizationUsageModel
 from obslabs_client.models.probe_channel_model import ProbeChannelModel
 from obslabs_client.models.probe_model import ProbeModel
 from obslabs_client.models.probe_schedule_model import ProbeScheduleModel
+from obslabs_client.models.probe_status_change_model import ProbeStatusChangeModel
+from obslabs_client.models.probe_status_model import ProbeStatusModel
 from obslabs_client.models.project_member_model import ProjectMemberModel
 from obslabs_client.models.project_model import ProjectModel
 from obslabs_client.models.user_model import UserModel
@@ -85,9 +88,10 @@ from obslabs_client.models.v1_list_organizations200_response import V1ListOrgani
 from obslabs_client.models.v1_list_organizations401_response import V1ListOrganizations401Response
 from obslabs_client.models.v1_list_probes200_response import V1ListProbes200Response
 from obslabs_client.models.v1_list_projects200_response import V1ListProjects200Response
-from obslabs_client.models.v1_my_user200_response import V1MyUser200Response
+from obslabs_client.models.v1_my_account200_response import V1MyAccount200Response
 from obslabs_client.models.v1_organization_member_update200_response import V1OrganizationMemberUpdate200Response
 from obslabs_client.models.v1_organization_member_update_request import V1OrganizationMemberUpdateRequest
+from obslabs_client.models.v1_probe_status_changes200_response import V1ProbeStatusChanges200Response
 from obslabs_client.models.v1_project_member_create200_response import V1ProjectMemberCreate200Response
 from obslabs_client.models.v1_project_member_create_request import V1ProjectMemberCreateRequest
 from obslabs_client.models.v1_project_member_update_request import V1ProjectMemberUpdateRequest
